@@ -3,11 +3,6 @@ import matplotlib.pyplot as plt
 from keras.datasets import imdb
 from keras import models, layers
 
-# word_index = imdb.get_word_index()
-# reverse_word_index = dict([(value, key) for (key, value) in word_index.items()])
-# def decoded(alist):
-#     return ' '.join([reverse_word_index.get(i, '?') for i in alist])
-
 
 def vectorize(alist, dim=10000):
     a = np.zeros((len(alist), dim))
@@ -24,23 +19,24 @@ y_train = np.asarray(train_labels).astype('float32')
 y_test = np.asarray(train_labels).astype('float32')
 
 x_val = x_train[:10000]
-partial_x_train = x_train[10000:]
+partial_x_val = x_train[10000:]
 y_val = y_train[:10000]
-partial_y_train = y_train[10000:]
+partial_y_val = y_train[10000:]
+
 
 model = models.Sequential()
 model.add(layers.Dense(16, activation='relu', input_shape=(10000,)))
-model.add(layers.Dense(16, activation='relu'))
 model.add(layers.Dense(1, activation='sigmoid'))
 
 model.compile(
     optimizer='rmsprop',
     loss='binary_crossentropy',
-    metrics=['accuracy'])
+    metrics=['accuracy']
+)
 
 history = model.fit(
-    partial_x_train,
-    partial_y_train,
+    partial_x_val,
+    partial_y_val,
     epochs=4,
     batch_size=512,
     validation_data=(x_val, y_val))
@@ -72,51 +68,3 @@ plt.xlabel('Epochs')
 plt.ylabel('Accuracy')
 plt.legend()
 plt.show()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
