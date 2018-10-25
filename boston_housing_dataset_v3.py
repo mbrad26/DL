@@ -29,7 +29,7 @@ def build_model():
 model = build_model()
 model.fit(train_data,
           train_targets,
-          epochs=80,
+          epochs=500,
           batch_size=16
           )
 mse_val, mae_val = model.evaluate(test_data, test_targets)
